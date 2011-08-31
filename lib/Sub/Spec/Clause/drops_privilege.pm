@@ -3,7 +3,7 @@ package Sub::Spec::Clause::drops_privilege;
 # VERSION
 
 sub update_schema {
-    my $schema = Sub::Spec::Schema::SCHEMA or return;
+    my $schema = $Sub::Spec::Schema::SCHEMA or return;
     $schema->[1]{keys}{drops_privilege} = 'bool*';
 }
 
