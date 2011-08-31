@@ -1,5 +1,10 @@
 Revision history for Sub::Spec::Clause::drops_privilege
 
+0.02     2011-08-31
+
+         Fixed some typos.
+
+
 0.01     2011-08-31
 
          First release.
