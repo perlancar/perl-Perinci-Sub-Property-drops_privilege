@@ -10,7 +10,7 @@ sub update_schema {
 update_schema();
 
 1;
-# ABSTRACT: Add clause 'drops_privilege'
+# ABSTRACT: Add spec clause 'drops_privilege'
 
 =head1 SYNOPSIS
 
