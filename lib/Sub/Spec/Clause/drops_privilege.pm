@@ -20,6 +20,14 @@ update_schema();
 
 =head1 DESCRIPTION
 
+B<NOTICE>: The Sub::Spec specification is deprecated as of Jan 2012. L<Rinci> is
+the new specification to replace Sub::Spec, it is about 95% compatible with
+Sub::Spec, but corrects a few issues and is more generic. Perinci:: is the
+family of Perl modules that implement the Rinci specification. Many of its
+modules can handle existing Sub::Spec sub specs.
+L<Rinci::function::property::drops_privilege> is the replacement for
+this module.
+
 Argument: BOOL
 
 This module adds 'drops_privilege' clause to sub spec. If set to 1, it specifies
