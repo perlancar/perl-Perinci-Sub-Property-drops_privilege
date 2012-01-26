@@ -1,0 +1,8 @@
+Perinci-Sub-property-XXX isinya:
+
+- kode utk update schema Rinci::function (di Rinci::Schema::function di
+dist Rinci?)
+
+- kode utk implement property utk wrapper (Perinci::Sub::Wrapper::property::X)
+
+- dll in the future
