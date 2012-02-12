@@ -4,53 +4,61 @@ use 5.010;
 use strict;
 use warnings;
 
-use Perinci::Util qw(add_property);
+use Perinci::Util qw(declare_property);
 
 # VERSION
 
-sub import {
-    add_property(
-        type => 'function',
-        name => 'drops_privilege',
-        schema => {
+declare_property(
+    name => 'drops_privilege',
+    type => 'function',
+    schema => ['bool' => {default=>0}],
+    wrapper => {
+        meta => {
+            # should be done quite immediately after eval
+            prio => 20,
+            convert => 1,
         },
-    );
-}
+        handler => sub {
+            my ($self, %args) = @_;
+            my $v = $args{new} // $args{value} // '';
+            die "Invalid value for drops_privilege '$v', ".
+                "please use '', 'temporary', or 'permanent'"
+                    unless $v =~ /\A(|temp(?:orary)?|perm(?:anent)?)\z/;
 
-package     sub after_eval {
-            my ($wrapper, $val) = @_;
-                $wrapper->add_line('if ($< == 0 && $>) { $> = 0; $) = $( }');
+            if ($v =~ /temp/) {
+                $self->select_section('after_eval');
+                $self->push_lines('if ($< == 0 && $>) { $> = 0; $) = $( }');
             }
-
-    1;
-
-    update_schema();
+        },
+    },
+);
 
 1;
-# ABSTRACT: Add function metadata property 'drops_privilege'
+# ABSTRACT: Declare that function drops privilege during running
 
 =head1 SYNOPSIS
 
  # in your function metadata
- drops_privilege => 1
+ drops_privilege => 'temp'
 
 
 =head1 DESCRIPTION
 
-Argument: BOOL
+Valid values: '', 'temporary', or 'permanent'.
 
-This module adds 'drops_privilege' clause to sub spec. If set to 1, it specifies
-that sub drops OS privileges when doing its job. Usually this is for tasks that
-run as root/administrator.
+This property declares that function drops privilege (either temporarily by
+setting EUID ($>), or permanently by setting UID ($<)) during execution. Usually
+the function is run by superuser and needs to perform things on behalf of normal
+users.
 
-This module adds a wrapper code to make sure that OS privilege is restored. A
-sub might die in the middle of execution and haven't restored OS privileges yet.
+This property's wrapper implementation currently does this: If privilege is
+dropped temporarily, make sure that we switch back to superuser. Sometimes when
+the function dies, privileges are not restored, causing failure to subsequent
+operation.
 
 
 =head1 SEE ALSO
 
-L<Sub::Spec>
-
-L<Sub::Spec::Wrapper>
+L<Perinci>
 
 =cut
