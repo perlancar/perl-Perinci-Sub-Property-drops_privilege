@@ -44,7 +44,7 @@ declare_property(
 
 =head1 DESCRIPTION
 
-Valid values: '', 'temporary', or 'permanent'.
+Valid values: '', 'temporary' (or 'temp'), or 'permanent' (or 'perm').
 
 This property declares that function drops privilege (either temporarily by
 setting EUID ($>), or permanently by setting UID ($<)) during execution. Usually
