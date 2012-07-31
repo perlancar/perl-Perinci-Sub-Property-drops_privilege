@@ -14,8 +14,9 @@ declare_property(
     schema => ['bool' => {default=>0}],
     wrapper => {
         meta => {
+            v       => 2,
             # should be done quite immediately after eval
-            prio => 20,
+            prio    => 20,
             convert => 1,
         },
         handler => sub {
