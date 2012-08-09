@@ -1,4 +1,4 @@
-package Perinci::Sub::property::drops_privilege;
+package Perinci::Sub::Property::drops_privilege;
 
 use 5.010;
 use strict;
